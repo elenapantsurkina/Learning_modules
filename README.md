@@ -13,13 +13,11 @@
 
 ## Зависимости
 - python 3.12
-- django 5.1.1
+- django 5.1.6
 
 
 ## Установка зависимостей
 ```pip install django```
-создайте файл .env и укажите там переменные: SECRET_KEY, NAME,USER_NAME,PASSWORD,HOST,PORT,STRIPE_API_KEY, 
-CELERY_BROKER_URL,CELERY_RESULT_BACKEND, EMAIL_HOST,EMAIL_PORT, EMAIL_HOST_USER,EMAIL_HOST_PASSWORD
 
 ## Конфигурация
 Перед запуском проекта убедитесь, что все зависимости установлены и выполнены необходимые конфигурационные шаги
