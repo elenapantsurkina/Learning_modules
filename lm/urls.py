@@ -1,6 +1,7 @@
 from rest_framework.routers import SimpleRouter
-from lm.views import LearningVieSet
+
 from lm.apps import LmConfig
+from lm.views import LearningVieSet
 
 app_name = LmConfig.name
 

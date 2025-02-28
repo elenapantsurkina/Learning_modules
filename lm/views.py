@@ -1,12 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
+
 from lm.models import Learning
-from lm.serializers import LearningSerializer
 from lm.paginations import CustomPagination
+from lm.serializers import LearningSerializer
 from users.permissions import IsOwner
 
 
 class LearningVieSet(ModelViewSet):
     """CRUD для Learning."""
+
     queryset = Learning.objects.all()
     serializer_class = LearningSerializer
     pagination_class = CustomPagination
