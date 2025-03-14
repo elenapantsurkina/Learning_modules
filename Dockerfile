@@ -25,6 +25,8 @@ RUN poetry install --no-root -vvv
 # Копируем исходный код приложения в контейнер
 COPY . .
 
+ENV SECRET_KEY="django-insecure-6be+fa)7ed_w2!+38-2z8md3l@*#3-n***un0^qeeop99qo#ek"
+
 # Пробрасываем порт, который будет использовать Django
 EXPOSE 8000
 
