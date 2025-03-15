@@ -19,17 +19,14 @@ RUN pip install poetry
 # Копируем файлы проекта в контейнер
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry config virtualenvs.create false
-
 # Устанавливаем зависимости проекта
-RUN poetry install --no-root -vvv
+RUN poetry install --no-root
 
 # Копируем исходный код приложения в контейнер
 COPY . .
 
-ENV SECRET_KEY="django-insecure-6be+fa)7ed_w2!+38-2z8md3l@*#3-n***un0^qeeop99qo#ek"
-
 # Пробрасываем порт, который будет использовать Django
 EXPOSE 8000
 
-
+# Команда для запуска приложения
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
