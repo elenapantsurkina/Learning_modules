@@ -1,32 +1,24 @@
-# Используем официальный slim-образ Python 3.12
-FROM python:3.12-slim
+FROM python:3.12
 
-
-# Устанавливаем рабочую директорию в контейнере
-WORKDIR /app
-
-
-# Устанавливаем необходимые системные зависимости
-RUN apt-get update \
-    && apt-get install -y gcc libpq-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
+# Чтобы логи сразу шли в stdout/stderr без буферизации
+ENV PYTHONUNBUFFERED=1
 
 # Устанавливаем Poetry
-RUN pip install poetry
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install poetry
 
-# Копируем файлы проекта в контейнер
+WORKDIR /app
+
+# Копируем файлы конфигурации Poetry
 COPY pyproject.toml poetry.lock ./
 
-# Устанавливаем зависимости проекта
-RUN poetry install --no-root
+# Ставим зависимости внутрь окружения Poetry
+RUN poetry install --no-root --no-interaction --no-ansi
 
-# Копируем исходный код приложения в контейнер
+# Копируем весь остальной код
 COPY . .
 
-# Пробрасываем порт, который будет использовать Django
-EXPOSE 8000
+#EXPOSE 8000
 
-# Команда для запуска приложения
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+## Запускаем Django через Poetry
+#CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
