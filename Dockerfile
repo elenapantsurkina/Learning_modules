@@ -18,7 +18,7 @@ RUN poetry install --no-root --no-interaction --no-ansi
 # Копируем весь остальной код
 COPY . .
 
-#EXPOSE 8000
+EXPOSE 8000
 
-## Запускаем Django через Poetry
-#CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Запускаем Django через Poetry
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
