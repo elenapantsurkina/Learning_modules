@@ -3,10 +3,10 @@ services:
   web:
     build: .
     command: >
-      sh -c "poetry run python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
-      - static_volume:/code/staticfiles
+      - .:/app
+
     ports:
       - "8000:8000"
     depends_on:
@@ -26,17 +26,19 @@ services:
 
   redis:
     image: redis:6
+    restart: on-failure
 
   celery:
     build: .
     command: >
-      bash -c "poetry run celery -A config worker -l INFO --concurrency=500 --pool=gevent"
+      bash -c "celery -A config worker -l INFO --concurrency=500 --pool=gevent"
     env_file:
       - .env
     volumes:
-      - ./app:/app
+      - .:/app
     depends_on:
       - redis
+      - db
 
 
   celery_beat:
@@ -44,11 +46,12 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app:/app
+      - .:/app
     command: >
       bash -c "poetry run celery -A config beat --loglevel=info"
     depends_on:
       - redis
+      - db
 
 volumes:
   postgres_data:
