@@ -33,19 +33,22 @@ services:
       bash -c "celery -A config worker -l INFO --concurrency=500 --pool=gevent"
     env_file:
       - .env
+    volumes:
+      - ./app:/app
     depends_on:
       - redis
-      - db
+
 
   celery_beat:
     build: .
     env_file:
       - .env
+    volumes:
+      - ./app:/app
     command: >
       bash -c "celery -A config beat --loglevel=info"
     depends_on:
       - redis
-      - db
 
 volumes:
   postgres_data:
