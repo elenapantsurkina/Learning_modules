@@ -30,7 +30,7 @@ services:
   celery:
     build: .
     command: >
-      bash -c "celery -A config worker -l INFO --concurrency=500 --pool=gevent"
+      bash -c "poetry run celery -A config worker -l INFO --concurrency=500 --pool=gevent"
     env_file:
       - .env
     volumes:
@@ -46,7 +46,7 @@ services:
     volumes:
       - ./app:/app
     command: >
-      bash -c "celery -A config beat --loglevel=info"
+      bash -c "poetry run celery -A config beat --loglevel=info"
     depends_on:
       - redis
 
